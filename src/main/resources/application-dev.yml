@@ -1,0 +1,13 @@
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    max-connections: 20000
+  port: 8081
+  servlet:
+    context-path:
+
+grpc:
+    port: 8882
+    certPath: C:\treeke\ideWorkspace\treeke-grpc\src\main\resources\ca.cer
+    keyPath: C:\treeke\ideWorkspace\treeke-grpc\src\main\resources\ca.key

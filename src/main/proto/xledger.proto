@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+option java_package = "com.cetcxl.luna.protos.thrid";
+
+package protos;
+
+message SignedEnvelope {
+    bytes envelope = 1;
+    bytes signature = 2;
+}
+
+message Envelope {
+    //自己的证书编号
+    string src_pki = 1;
+    //接受者证书编号
+    string des_pki = 2;
+    bytes nonce = 3;
+    oneof data {
+        DeliverJoinReq deliver_join_env = 4;
+        DeliverInstallReq  deliver_install_env= 5;
+        ReportReq  report_env = 6;
+    }
+}
+
+message DeliverJoinReq {
+    string id = 1;
+    bytes block = 2;
+}
+
+message DeliverInstallReq {
+    string id = 1;
+    bytes chaincodePackage = 2;
+    enum Type {
+        UNDEFINED = 0;
+        GOLANG = 1;
+        NODE = 2;
+        CAR = 3;
+        JAVA = 4;
+    }
+    Type language = 3;
+    string chaincodeName = 4;
+    string chaincodeVersion = 5;
+    string chaincodePath = 6;
+}
+
+message ReportReq {
+    string id = 1;
+    //暂时不考虑由于下发的包照成不完成功能的过程
+}
+
+
+message CommonResponse {
+    //原数据
+    bytes respose_env = 1;
+    //
+    bytes signature = 2;
+}
+
+message ResponseEnv {
+    //请求数据的hash值
+    bytes hash = 1;
+    enum Type{
+        SUCCESS = 0;
+        Fail = 1;
+    }
+    Type type = 2;
+}
+
+service Deliver {
+    rpc  JoinChannel(SignedEnvelope) returns (CommonResponse) {}
+    rpc  InstallChaincode(SignedEnvelope) returns (CommonResponse) {}
+}
+
+service Report {
+    rpc  JoinChannel(SignedEnvelope) returns (CommonResponse) {}
+    rpc  InstallChaincode(SignedEnvelope) returns (CommonResponse) {}
+}

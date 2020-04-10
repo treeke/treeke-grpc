@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "com.cetcxl.luna.protos.thrid";
+
+package protos;
+
+
+
+message HeartBeatReq {
+        string id = 1;
+}
+message HeartBeatRes {
+        string code = 1;
+        string message = 2;
+}
+
+service Heartbeat {
+    rpc Heartbeat (HeartBeatReq) returns (HeartBeatRes) {}
+}
